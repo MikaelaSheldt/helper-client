@@ -34,8 +34,24 @@ class RunHelper extends Component {
   }
 
   componentDidMount() {
-    this.rotate(this.props.blockMatches)
+    const sortedList = this.sort(this.props.blockMatches)
+    this.rotate(sortedList)
 
+  }
+
+  sort = (array) => {
+    let high = []
+    let medium = []
+    let low = []
+    if (array.length <= 1 ) {
+      return array
+    } else {
+      array.forEach(object => {
+        object.priority === 'low' ? low.push(object) : (object.priority === 'medium' ? medium.push(object) : high.push(object))
+      })
+    }
+    const sorted = [...high , ...medium , ...low]
+    return sorted
   }
 
   handleOnPress = (array) => {
@@ -103,9 +119,10 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   startSkipButtons: {
+    paddingVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   finish: {
     flexDirection: 'column',
